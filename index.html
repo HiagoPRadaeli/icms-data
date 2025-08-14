@@ -48,8 +48,8 @@
   </table>
 
   <script>
-    // TROQUE "SEU_USUARIO" pelo seu usuário do GitHub
-    const url = 'https://raw.githubusercontent.com/HiagoPRadaeli/icms-data/refs/heads/main/icms.json';
+    // Como o icms.json está no mesmo repositório e pasta, podemos usar caminho relativo
+    const url = 'icms.json';
 
     fetch(url)
       .then(response => {
@@ -78,4 +78,3 @@
 
 </body>
 </html>
-
