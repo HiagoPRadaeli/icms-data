@@ -1,80 +1,234 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Tabela de ICMS Atualizada</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f9f9f9;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      max-width: 700px;
-      margin: 0 auto;
-      background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      background-color: #eee;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Matriz ICMS Interestadual (Origem × Destino)</title>
+<style>
+  :root{
+    --bg:#f5f6fb;
+    --panel:#ffffff;
+    --ink:#1b1f3b;
+    --muted:#6b6f85;
+    --border:#e9e9ef;
+    --header:#232355;
+    --header-2:#2f2f70;
+    --chip:#eef0ff;
+    --chip-ink:#2b2b53;
+    --diag:#151538;
+    --accent:#3b2dbf;
+    --accent-2:#241f6b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);font-family:Inter,Arial,Helvetica,sans-serif;color:var(--ink)}
+  .wrap{max-width:1280px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:320px 1fr;gap:16px}
+  .card{background:var(--panel);border-radius:14px;box-shadow:0 6px 24px rgba(16,24,40,.06);overflow:hidden}
+  .cover{background:linear-gradient(155deg,var(--accent),var(--accent-2));color:#fff;display:flex;flex-direction:column;justify-content:space-between;min-height:520px}
+  .pad{padding:24px}
+  .cover h1{margin:0 0 6px;font-size:28px;font-weight:800;line-height:1.15}
+  .badge{display:inline-block;background:rgba(255,255,255,.16);padding:6px 12px;border-radius:999px;font-size:12px}
+  .legend{margin-top:16px;font-size:12px;opacity:.95}
+  .legend b{display:inline-block;width:14px;height:14px;background:#fff;border-radius:3px;margin-right:6px;vertical-align:-2px}
+  .legend .diag{background:var(--diag)}
+  .box{display:grid;gap:8px}
+  .hint{font-size:12px;opacity:.9}
+  .table-card{padding:14px}
+  .title{font-size:22px;text-align:center;margin:8px 0 16px;font-weight:800;color:var(--ink)}
+  .bar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin:8px auto 14px;max-width:1060px}
+  .bar .note{font-size:12px;color:var(--muted)}
+  .filters{display:flex;gap:8px;align-items:center}
+  .filters select{padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:#fff}
+  .filters button{padding:8px 12px;border:1px solid var(--header);background:var(--header);color:#fff;border-radius:8px;cursor:pointer}
+  .filters button.ghost{background:#fff;color:var(--header)}
+  .scroll{overflow:auto;border-radius:12px;border:1px solid var(--border);background:#fff}
+  table{border-collapse:separate;border-spacing:0;min-width:980px}
+  th,td{font-size:13px;padding:8px 10px;border:1px solid var(--border);background:#fff;text-align:center}
+  thead th{position:sticky;top:0;background:var(--header);color:#fff;font-weight:700;z-index:2}
+  .sticky-left{position:sticky;left:0;z-index:2;background:var(--header);color:#fff;font-weight:700}
+  .hdr-col{background:var(--header)}
+  .hdr-row{background:var(--header)}
+  .diag{background:var(--diag)!important;color:#fff;font-weight:800}
+  .uf-chip{display:inline-block;padding:2px 6px;border-radius:6px;background:var(--chip);color:var(--chip-ink);font-weight:700}
+  .footnote{color:var(--muted);font-size:12px;margin-top:8px}
+  .cell-7{background:#eaf6ff}     /* 7% */
+  .cell-12{background:#f7f7fb}    /* 12% */
+  .cell-custom{background:#fff7e6}/* para exceções diferentes */
+  @media (max-width:1060px){.wrap{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
+<div class="wrap">
+  <!-- Lado esquerdo -->
+  <aside class="card cover">
+    <div class="pad">
+      <span class="badge">Matriz Origem × Destino</span>
+      <h1>Tabela ICMS<br>Interestadual</h1>
+      <div class="legend">
+        <div><b class="diag"></b>Diagonal = <i>alíquota interna</i> (vem do <code>icms.json</code>)</div>
+        <div><b style="background:#eaf6ff"></b> 7% &nbsp;•&nbsp; <b style="background:#f7f7fb"></b> 12%</div>
+      </div>
+    </div>
+    <div class="pad" style="margin-top:auto">
+      <div class="box">
+        <div class="hint">Edite <code>icms.json</code> para mudar a alíquota interna de cada UF.</div>
+        <div class="hint">Regras de 7%/12% e exceções personalizadas ficam no script deste arquivo.</div>
+      </div>
+    </div>
+  </aside>
 
-  <h1>Alíquotas de ICMS por Estado (2025)</h1>
-  <table id="tabela-icms">
-    <thead>
-      <tr>
-        <th>Estado</th>
-        <th>UF</th>
-        <th>Alíquota (%)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td colspan="3">Carregando...</td></tr>
-    </tbody>
-  </table>
+  <!-- Tabela -->
+  <main class="card table-card">
+    <div class="title">DESTINO</div>
 
-  <script>
-    // Como o icms.json está no mesmo repositório e pasta, podemos usar caminho relativo
-    const url = 'icms.json';
+    <div class="bar">
+      <div class="filters">
+        <label>Origem:</label>
+        <select id="fOrigem"></select>
+        <label>Destino:</label>
+        <select id="fDestino"></select>
+        <button id="btLimpar" class="ghost">Limpar filtros</button>
+      </div>
+      <div class="note">Passe o mouse nas células para ver a regra aplicada.</div>
+    </div>
 
-    fetch(url)
-      .then(response => {
-        if (!response.ok) throw new Error('Erro ao buscar dados: ' + response.status);
-        return response.json();
-      })
-      .then(data => {
-        const tbody = document.getElementById('tabela-icms').querySelector('tbody');
-        tbody.innerHTML = '';
-        data.forEach(item => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${item.estado}</td>
-            <td>${item.uf}</td>
-            <td>${item.icms.toFixed(2).replace('.', ',')} %</td>
-          `;
-          tbody.appendChild(tr);
-        });
-      })
-      .catch(error => {
-        console.error(error);
-        const tbody = document.getElementById('tabela-icms').querySelector('tbody');
-        tbody.innerHTML = '<tr><td colspan="3">Erro ao carregar dados.</td></tr>';
-      });
-  </script>
+    <div class="scroll">
+      <table id="matriz">
+        <thead id="thead"></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="footnote">Observação: a matriz usa a regra padrão 12% e a regra 7% (S/SE → N/NE/CO). Exceções específicas podem ser definidas no objeto <code>EXCECOES</code> no script.</div>
+  </main>
+</div>
 
+<script>
+/* ====================== CONFIG ====================== */
+
+// ordem e lista de UFs
+const UFS = ["AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
+
+// regiões (para regra de 7%)
+const REGIOES = {
+  N: ["AC","AM","AP","PA","RO","RR","TO"],
+  NE:["AL","BA","CE","MA","PB","PE","PI","RN","SE"],
+  CO:["DF","GO","MT","MS"],
+  SE:["ES","MG","RJ","SP"],
+  S: ["PR","RS","SC"]
+};
+
+// regra padrão fora da diagonal
+const TAXA_PADRAO = 12;
+
+// quando origem ∈ (S ∪ SE) e destino ∈ (N ∪ NE ∪ CO) => 7%
+function isSevenRule(orig, dest){
+  const sulSudeste = new Set([...REGIOES.S, ...REGIOES.SE]);
+  const norteNeCo  = new Set([...REGIOES.N, ...REGIOES.NE, ...REGIOES.CO]);
+  return sulSudeste.has(orig) && norteNeCo.has(dest);
+}
+
+// exceções específicas (ex.: estados com política distinta)
+// Formato: "ORIGEM>DESTINO": aliquota
+const EXCECOES = {
+  // exemplos (descomente e ajuste se precisar):
+  // "ES>AM": 7,
+  // "PR>PE": 7,
+  // "SP>MA": 7,
+  // "BA>PR": 12,
+};
+
+/* ====================== UI BASICS ====================== */
+
+function fillSelects(){
+  const fo = document.getElementById('fOrigem');
+  const fd = document.getElementById('fDestino');
+  fo.innerHTML = `<option value="">Todas</option>` + UFS.map(uf=>`<option>${uf}</option>`).join('');
+  fd.innerHTML = `<option value="">Todas</option>` + UFS.map(uf=>`<option>${uf}</option>`).join('');
+  document.getElementById('btLimpar').onclick = ()=>{
+    fo.value = ""; fd.value=""; paint();
+  };
+  fo.onchange = fd.onchange = paint;
+}
+
+function buildHeader(){
+  const thead = document.getElementById('thead');
+  thead.innerHTML = '';
+  const tr = document.createElement('tr');
+
+  const th0 = document.createElement('th');
+  th0.className = 'hdr-row';
+  th0.textContent = 'ORIGEM';
+  tr.appendChild(th0);
+
+  UFS.forEach(uf=>{
+    const th = document.createElement('th');
+    th.className = 'hdr-col';
+    th.textContent = uf;
+    tr.appendChild(th);
+  });
+  thead.appendChild(tr);
+}
+
+/* ====================== CORE ====================== */
+
+let ALIQUOTAS = {}; // { UF: {icms_interna, regiao, estado} }
+
+async function loadJSON(){
+  const resp = await fetch('icms.json');
+  if(!resp.ok) throw new Error('Não foi possível carregar icms.json');
+  const arr = await resp.json();
+  ALIQUOTAS = {};
+  arr.forEach(x=>{
+    ALIQUOTAS[x.uf] = { icms_interna: Number(x.icms), regiao: x.regiao, estado: x.estado };
+  });
+}
+
+function aliquotaInter(orig, dest){
+  if(orig === dest) return {valor: ALIQUOTAS[orig]?.icms_interna ?? null, classe:'diag', regra:'Alíquota interna'};
+  const key = `${orig}>${dest}`;
+  if(key in EXCECOES) return {valor: EXCECOES[key], classe:'cell-custom', regra:'Exceção configurada'};
+  if(isSevenRule(orig, dest)) return {valor: 7, classe:'cell-7', regra:'Regra 7% (S/SE → N/NE/CO)'};
+  return {valor: TAXA_PADRAO, classe:'cell-12', regra:'Regra padrão 12%'};
+}
+
+function format(v){ return (v==null || isNaN(v)) ? '-' : `${Number(v).toString().replace('.', ',')} %`; }
+
+function paint(){
+  const tbody = document.getElementById('tbody');
+  const fO = document.getElementById('fOrigem').value;
+  const fD = document.getElementById('fDestino').value;
+
+  tbody.innerHTML = '';
+  UFS.forEach(ufO=>{
+    if(fO && ufO!==fO) return;
+    const tr = document.createElement('tr');
+
+    const tdUF = document.createElement('td');
+    tdUF.className = 'sticky-left';
+    tdUF.textContent = ufO;
+    tr.appendChild(tdUF);
+
+    UFS.forEach(ufD=>{
+      if(fD && ufD!==fD) return;
+      const {valor, classe, regra} = aliquotaInter(ufO, ufD);
+      const td = document.createElement('td');
+      td.className = classe;
+      td.title = `${ufO} → ${ufD}: ${regra}`;
+      td.textContent = format(valor);
+      tr.appendChild(td);
+    });
+
+    tbody.appendChild(tr);
+  });
+}
+
+/* ====================== BOOT ====================== */
+
+(async function(){
+  fillSelects();
+  buildHeader();
+  await loadJSON();
+  paint();
+})();
+</script>
 </body>
 </html>
