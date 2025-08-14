@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Tabela de ICMS Atualizada</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #eee;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Alíquotas de ICMS por Estado (2025)</h1>
+  <table id="tabela-icms">
+    <thead>
+      <tr>
+        <th>Estado</th>
+        <th>UF</th>
+        <th>Alíquota (%)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td colspan="3">Carregando...</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    // TROQUE "SEU_USUARIO" pelo seu usuário do GitHub
+    const url = 'https://raw.githubusercontent.com/SEU_USUARIO/icms-data/main/icms.json';
+
+    fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error('Erro ao buscar dados: ' + response.status);
+        return response.json();
+      })
+      .then(data => {
+        const tbody = document.getElementById('tabela-icms').querySelector('tbody');
+        tbody.innerHTML = '';
+        data.forEach(item => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${item.estado}</td>
+            <td>${item.uf}</td>
+            <td>${item.icms.toFixed(2).replace('.', ',')} %</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(error => {
+        console.error(error);
+        const tbody = document.getElementById('tabela-icms').querySelector('tbody');
+        tbody.innerHTML = '<tr><td colspan="3">Erro ao carregar dados.</td></tr>';
+      });
+  </script>
+
+</body>
+</html>
