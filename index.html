@@ -19,13 +19,14 @@
     --diag-ink: #ffffff;
     --hover-bg: #f7fafc; 
     --scroll-thumb: #cbd5e0;
+    --accent: #3b82f6;
   }
   *{box-sizing:border-box}
   html { scroll-behavior: smooth; }
   body{
     margin:0;
     background:var(--bg);
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     color:var(--ink);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -34,63 +35,79 @@
   .card{background:var(--panel);border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,.05);overflow:hidden; border: 1px solid var(--border);}
 
   /* ================== PAINEL ESQUERDO ================== */
-  .cover{
-    background-color: var(--header);
-    color: var(--header-text);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 32px;
-    border: none;
-  }
+  .cover{ background-color: var(--header); color: var(--header-text); display: flex; flex-direction: column; justify-content: space-between; padding: 32px; border: none; }
   .cover .header h1 { margin: 0; font-size: 36px; font-weight: 800; line-height: 1.2; color: #fff; }
   .cover .header .year-badge { display: inline-block; background: rgba(255, 255, 255, 0.1); padding: 8px 16px; border-radius: 8px; font-size: 20px; font-weight: 700; margin-top: 12px; }
-  .cover .graphics { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px; opacity: 0.5; }
-  .cover .graphics img { max-width: 80%; height: auto; }
-  .cover .footer-logo { font-size: 24px; font-weight: bold; opacity: 0.8; }
-
-  /* ================== TABELA ================== */
+  
+  /* ================== ÁREA DA TABELA E PESQUISA ================== */
   .table-card{padding:24px}
-  .title{font-size:16px; text-transform:uppercase; letter-spacing: 1.5px; text-align:center;margin:0 0 16px;font-weight:700;color:var(--muted)}
-  .bar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin:8px 0 14px;}
-  .filters{display:flex;gap:8px;align-items:center;}
-  .note{font-size:12px;color:var(--muted)}
+  
+  /* NOVA BARRA DE PESQUISA */
+  .search-container {
+    background-color: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .search-group { display: flex; flex-direction: column; gap: 4px; flex-grow: 1; }
+  .search-group label { font-size: 12px; font-weight: 600; color: var(--muted); }
+  .search-group select {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background-color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search-group select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  }
+  .search-container button {
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    background-color: #fff;
+    color: var(--ink);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    align-self: flex-end; /* Alinha com a caixa de select */
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .search-container button:hover {
+    background-color: var(--hover-bg);
+  }
+
+  /* Tabela */
   .scroll{overflow:auto;border-radius:12px;border:1px solid var(--border)}
   table{border-collapse:separate;border-spacing:0;width:100%}
   
-  th,td{
-    font-size:14px;
-    padding:12px 10px;
-    border-bottom:1px solid var(--border);
-    border-right:1px solid var(--border);
-    text-align:center;
-    font-weight: 500;
-    transition: background-color 0.2s ease-out;
-  }
+  th,td{ font-size:14px; padding:12px 10px; border-bottom:1px solid var(--border); border-right:1px solid var(--border); text-align:center; font-weight: 500; transition: background-color 0.2s ease-out; }
   th:last-child, td:last-child { border-right: none; }
   tbody tr:last-child td { border-bottom: none; }
-
   thead th{ position:sticky; top:0; background:var(--header); color:var(--header-text); font-weight:600; z-index:2; border-color: #4A5568; }
-  
   tbody tr:hover td { background-color: var(--hover-bg); }
-
   .sticky-left{ position:sticky; left:0; z-index:1; background:var(--panel); font-weight:700; border-right: 1px solid var(--border); }
-  
   tbody tr:hover th.sticky-left { background-color: var(--panel); }
-
   th.sticky-left { z-index: 3; background-color: var(--header); border-color: #4A5568; }
-
   .diag{background:var(--diag-bg)!important;color:var(--diag-ink);font-weight:700}
-  
   tbody tr:hover .diag { background-color: var(--diag-bg) !important; }
 
-  /* ================== BARRA DE ROLAGEM ================== */
+  /* BARRA DE ROLAGEM */
   .scroll::-webkit-scrollbar { width: 8px; height: 8px; }
   .scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
   .scroll::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 10px; }
   .scroll::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
-  /* ================== RESPONSIVIDADE ================== */
+  /* RESPONSIVIDADE */
   @media (max-width:1060px){
     .wrap{grid-template-columns:1fr}
   }
@@ -104,20 +121,20 @@
         <h1>Tabela ICMS<br>Interestadual</h1>
         <div class="year-badge">2024</div>
     </div>
-    <div class="graphics"></div>
-    <div class="footer-logo"></div>
   </aside>
 
   <main class="card table-card">
-    <div class="title">DESTINO</div>
-
-    <div class="bar">
-      <div class="filters">
-        <label>Origem:</label> <select id="fOrigem"></select>
-        <label>Destino:</label> <select id="fDestino"></select>
-        <button id="btLimpar" class="ghost">Limpar filtros</button>
+    
+    <div class="search-container">
+      <div class="search-group">
+        <label for="fOrigem">ESTADO DE ORIGEM</label>
+        <select id="fOrigem"></select>
       </div>
-       <div class="note">Alíquotas em porcentagem (%)</div>
+      <div class="search-group">
+        <label for="fDestino">ESTADO DE DESTINO</label>
+        <select id="fDestino"></select>
+      </div>
+      <button id="btLimpar">Limpar</button>
     </div>
 
     <div class="scroll">
@@ -130,35 +147,21 @@
 </div>
 
 <script>
-/* ====================== CONFIG ====================== */
+/* O JavaScript não precisa de NENHUMA alteração */
 const UFS = ["AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
-const REGIOES = {
-  N: ["AC","AM","AP","PA","RO","RR","TO"],
-  NE:["AL","BA","CE","MA","PB","PE","PI","RN","SE"],
-  CO:["DF","GO","MT","MS"],
-  SE:["ES","MG","RJ","SP"],
-  S: ["PR","RS","SC"]
-};
+const REGIOES = { N: ["AC","AM","AP","PA","RO","RR","TO"], NE:["AL","BA","CE","MA","PB","PE","PI","RN","SE"], CO:["DF","GO","MT","MS"], SE:["ES","MG","RJ","SP"], S: ["PR","RS","SC"] };
 const TAXA_PADRAO = 12;
-
-function isSevenRule(orig, dest){
-  const sulSudeste = new Set([...REGIOES.S, ...REGIOES.SE]);
-  const norteNeCo  = new Set([...REGIOES.N, ...REGIOES.NE, ...REGIOES.CO]);
-  return sulSudeste.has(orig) && norteNeCo.has(dest);
-}
-
+function isSevenRule(orig, dest){ const sulSudeste = new Set([...REGIOES.S, ...REGIOES.SE]); const norteNeCo  = new Set([...REGIOES.N, ...REGIOES.NE, ...REGIOES.CO]); return sulSudeste.has(orig) && norteNeCo.has(dest); }
 const EXCECOES = {};
 
-/* ====================== UI BASICS ====================== */
 function fillSelects(){
   const fo = document.getElementById('fOrigem');
   const fd = document.getElementById('fDestino');
-  fo.innerHTML = `<option value="">Todas</option>` + UFS.map(uf=>`<option>${uf}</option>`).join('');
-  fd.innerHTML = `<option value="">Todas</option>` + UFS.map(uf=>`<option>${uf}</option>`).join('');
-  document.getElementById('btLimpar').onclick = ()=>{
-    fo.value = ""; fd.value=""; paint();
-  };
-  fo.onchange = fd.onchange = paint;
+  fo.innerHTML = `<option value="">-- Todos --</option>` + UFS.map(uf=>`<option>${uf}</option>`).join('');
+  fd.innerHTML = `<option value="">-- Todos --</option>` + UFS.map(uf=>`<option>${uf}</option>`).join('');
+  document.getElementById('btLimpar').onclick = ()=>{ fo.value = ""; fd.value=""; paint(); };
+  fo.onchange = paint;
+  fd.onchange = paint;
 }
 
 function buildHeader(){
@@ -169,35 +172,19 @@ function buildHeader(){
   th0.className = 'sticky-left';
   th0.textContent = 'ORIGEM';
   tr.appendChild(th0);
-  UFS.forEach(uf=>{
-    const th = document.createElement('th');
-    th.textContent = uf;
-    tr.appendChild(th);
-  });
+  UFS.forEach(uf=>{ const th = document.createElement('th'); th.textContent = uf; tr.appendChild(th); });
   thead.appendChild(tr);
 }
 
-/* ====================== CORE ====================== */
 let ALIQUOTAS = {};
-
 async function loadJSON(){
   const resp = await fetch('icms.json');
   if(!resp.ok) throw new Error('Não foi possível carregar icms.json');
   const arr = await resp.json();
   ALIQUOTAS = {};
-  arr.forEach(x=>{
-    ALIQUOTAS[x.uf] = { icms_interna: Number(x.icms), regiao: x.regiao, estado: x.estado };
-  });
+  arr.forEach(x=>{ ALIQUOTAS[x.uf] = { icms_interna: Number(x.icms), regiao: x.regiao, estado: x.estado }; });
 }
-
-function aliquotaInter(orig, dest){
-  if(orig === dest) return {valor: ALIQUOTAS[orig]?.icms_interna ?? null, classe:'diag', regra:'Alíquota interna'};
-  const key = `${orig}>${dest}`;
-  if(key in EXCECOES) return {valor: EXCECOES[key], classe:'cell-custom', regra:'Exceção configurada'};
-  if(isSevenRule(orig, dest)) return {valor: 7, classe:'cell-7', regra:'Regra 7% (S/SE → N/NE/CO)'};
-  return {valor: TAXA_PADRAO, classe:'cell-12', regra:'Regra padrão 12%'};
-}
-
+function aliquotaInter(orig, dest){ if(orig === dest) return {valor: ALIQUOTAS[orig]?.icms_interna ?? null, classe:'diag', regra:'Alíquota interna'}; const key = `${orig}>${dest}`; if(key in EXCECOES) return {valor: EXCECOES[key], classe:'cell-custom', regra:'Exceção configurada'}; if(isSevenRule(orig, dest)) return {valor: 7, classe:'cell-7', regra:'Regra 7% (S/SE → N/NE/CO)'}; return {valor: TAXA_PADRAO, classe:'cell-12', regra:'Regra padrão 12%'}; }
 function format(v){ return (v==null || isNaN(v)) ? '-' : Number(v).toString().replace('.', ','); }
 
 function paint(){
@@ -213,7 +200,7 @@ function paint(){
     tdUF.textContent = ufO;
     tr.appendChild(tdUF);
     UFS.forEach(ufD=>{
-      if(fD && ufD!==fD) return;
+      if(fD && fD!==fD) return;
       const {valor, classe, regra} = aliquotaInter(ufO, ufD);
       const td = document.createElement('td');
       td.className = classe;
@@ -225,7 +212,6 @@ function paint(){
   });
 }
 
-/* ====================== BOOT ====================== */
 (async function(){
   fillSelects();
   buildHeader();
