@@ -3,54 +3,64 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Tabela ICMS Interestadual 2024</title>
+<title>Tabela ICMS Interestadual 2025</title>
 
 <style>
   :root{
-    --bg: #f0f2f5; --panel: #ffffff; --ink: #1a202c; --muted: #718096; --border: #e2e8f0;
-    --header: #2d3748; --header-text: #ffffff; --diag-bg: #1a202c; --diag-ink: #ffffff;
-    --hover-bg: #f7fafc; --scroll-thumb: #cbd5e0;
+    --bg:#f4f6f9; --panel:#fff; --ink:#111827; --muted:#6b7280; --border:#e5e7eb;
+    --header:#0f172a; --header-text:#fff; --diag-bg:#111827; --diag-ink:#fff;
+    --hover:#f9fafb; --scroll:#cbd5e1;
+    --c7:#ecfdf5;   /* 7% */
+    --c12:#eef2ff;  /* 12% */
+    --cX:#fff7ed;   /* exceções manuais, se usar */
   }
   *{box-sizing:border-box}
-  body{ margin:0; background:var(--bg); font-family: 'Inter', system-ui, sans-serif; color:var(--ink); -webkit-font-smoothing: antialiased; }
+  body{margin:0;background:var(--bg);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
   .wrap{max-width:1380px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:320px 1fr;gap:24px}
-  .card{background:var(--panel);border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,.05);overflow:hidden; border: 1px solid var(--border);}
-  .cover{ background-color: var(--header); color: var(--header-text); display: flex; flex-direction: column; justify-content: space-between; padding: 32px; border: none; }
-  .cover .header h1 { margin: 0; font-size: 36px; font-weight: 800; line-height: 1.2; }
-  .cover .header .year-badge { display: inline-block; background: rgba(255, 255, 255, 0.1); padding: 8px 16px; border-radius: 8px; font-size: 20px; font-weight: 700; margin-top: 12px; }
-  .table-card{padding:24px}
-  .bar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin:8px 0 14px;}
-  .filters{display:flex;gap:8px;align-items:center;}
-  .filters label { font-size: 14px; color: var(--muted); font-weight: 500; }
-  .filters select { padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); }
-  .filters button { padding: 6px 12px; border: 1px solid var(--border); background: #fff; border-radius: 8px; cursor: pointer; }
+  @media (max-width:1060px){.wrap{grid-template-columns:1fr}}
+
+  .card{background:var(--panel);border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.06);overflow:hidden;border:1px solid var(--border)}
+  .cover{background:var(--header);color:var(--header-text);padding:28px}
+  .cover h1{margin:0 0 10px;font-size:34px;line-height:1.15;font-weight:800}
+  .badge{display:inline-block;padding:8px 12px;border:1px solid rgba(255,255,255,.25);border-radius:10px;font-weight:700}
+  .legend{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+  .chip{display:flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 10px;font-size:12px}
+  .dot{width:14px;height:14px;border-radius:4px;border:1px solid rgba(255,255,255,.25);display:inline-block}
+
+  .table-card{padding:20px}
+  .bar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin:6px 0 12px}
+  .filters{display:flex;gap:8px;align-items:center}
+  .filters label{font-size:14px;color:var(--muted);font-weight:600}
+  .filters select, .filters button{padding:8px 10px;border-radius:10px;border:1px solid var(--border);background:#fff;cursor:pointer}
   .note{font-size:12px;color:var(--muted)}
   .scroll{overflow:auto;border-radius:12px;border:1px solid var(--border)}
+  .scroll::-webkit-scrollbar{width:8px;height:8px}
+  .scroll::-webkit-scrollbar-thumb{background:var(--scroll);border-radius:10px}
+
   table{border-collapse:separate;border-spacing:0;width:100%}
-  th,td{ font-size:14px; padding:12px 10px; border-bottom:1px solid var(--border); border-right:1px solid var(--border); text-align:center; font-weight: 500; transition: background-color 0.2s ease-out; }
-  th:last-child, td:last-child { border-right: none; }
-  tbody tr:last-child td { border-bottom: none; }
-  thead th{ position:sticky; top:0; background:var(--header); color:var(--header-text); font-weight:600; z-index:2; border-color: #4A5568; }
-  tbody tr:hover td { background-color: var(--hover-bg); }
-  .sticky-left{ position:sticky; left:0; z-index:1; background:var(--panel); font-weight:700; border-right: 1px solid var(--border); }
-  tbody tr:hover th.sticky-left { background-color: var(--panel); }
-  th.sticky-left { z-index: 3; background-color: var(--header); border-color: #4A5568; }
-  .diag{background:var(--diag-bg)!important;color:var(--diag-ink);font-weight:700}
-  tbody tr:hover .diag { background-color: var(--diag-bg) !important; }
-  .scroll::-webkit-scrollbar { width: 8px; height: 8px; }
-  .scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
-  .scroll::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 10px; }
-  .scroll::-webkit-scrollbar-thumb:hover { background: var(--muted); }
-  @media (max-width:1060px){ .wrap{grid-template-columns:1fr} }
+  th,td{font-size:14px;padding:10px 10px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);text-align:center;transition:background-color .15s}
+  th:last-child,td:last-child{border-right:none}
+  tbody tr:last-child td{border-bottom:none}
+  thead th{position:sticky;top:0;background:var(--header);color:var(--header-text);font-weight:700;z-index:2;border-color:#1f2937}
+  .sticky-left{position:sticky;left:0;z-index:3;background:var(--header);color:var(--header-text);font-weight:800;border-color:#1f2937;text-align:left}
+  tbody tr:hover td{background:var(--hover)}
+  .diag{background:var(--diag-bg)!important;color:var(--diag-ink);font-weight:800}
+  .cell-7{background:var(--c7);font-weight:700}
+  .cell-12{background:var(--c12)}
+  .cell-custom{background:var(--cX);font-weight:700}
 </style>
 </head>
 
 <body>
 <div class="wrap">
   <aside class="card cover">
-    <div class="header">
-        <h1>Tabela ICMS<br>Interestadual</h1>
-        <div class="year-badge">2024</div>
+    <h1>Tabela ICMS<br>Interestadual</h1>
+    <span class="badge">2025</span>
+
+    <div class="legend">
+      <span class="chip"><i class="dot" style="background:var(--c7)"></i>7% &nbsp; S/SE (exceto ES) → N/NE/CO/ES</span>
+      <span class="chip"><i class="dot" style="background:var(--c12)"></i>12% &nbsp; Demais casos</span>
+      <span class="chip"><i class="dot" style="background:var(--diag-bg)"></i>Interna &nbsp; (diagonal)</span>
     </div>
   </aside>
 
@@ -63,7 +73,7 @@
         <select id="fDestino"></select>
         <button id="btLimpar">Limpar</button>
       </div>
-       <div class="note">Passe o mouse na célula para ver a regra.</div>
+      <div class="note">Passe o mouse na célula para ver a regra.</div>
     </div>
 
     <div class="scroll">
@@ -77,38 +87,49 @@
 
 <script>
 const UFS = ["AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
-const REGIOES = { N: ["AC","AM","AP","PA","RO","RR","TO"], NE:["AL","BA","CE","MA","PB","PE","PI","RN","SE"], CO:["DF","GO","MT","MS"], SE:["ES","MG","RJ","SP"], S: ["PR","RS","SC"] };
+const REGIOES = {
+  N:  ["AC","AM","AP","PA","RO","RR","TO"],
+  NE: ["AL","BA","CE","MA","PB","PE","PI","RN","SE"],
+  CO: ["DF","GO","MT","MS"],
+  SE: ["ES","MG","RJ","SP"],
+  S:  ["PR","RS","SC"]
+};
+
+// regra 2025: 7% quando ORIGEM ∈ (S + SE sem ES) e DESTINO ∈ (N + NE + CO + ES)
 const TAXA_PADRAO = 12;
-const EXCECOES = {};
+const EXCECOES = {}; // se quiser forçar alguma célula: {"SP>BA": 10}
 let ALIQUOTAS = {};
 
+const SE_SEM_ES = REGIOES.SE.filter(uf => uf !== 'ES');
+const GRUPO_ORIGEM_7 = new Set([...REGIOES.S, ...SE_SEM_ES]); // S/SE exceto ES
+const GRUPO_DEST_7 = new Set([...REGIOES.N, ...REGIOES.NE, ...REGIOES.CO, "ES"]); // inclui ES no destino
+
 function isSevenRule(orig, dest){
-  const sulSudeste = new Set([...REGIOES.S, ...REGIOES.SE]);
-  const norteNeCo  = new Set([...REGIOES.N, ...REGIOES.NE, ...REGIOES.CO]);
-  return sulSudeste.has(orig) && norteNeCo.has(dest);
+  return GRUPO_ORIGEM_7.has(orig) && GRUPO_DEST_7.has(dest);
 }
 
 function fillSelects(){
   const fo = document.getElementById('fOrigem');
   const fd = document.getElementById('fDestino');
-  fo.innerHTML = `<option value="">Todas</option>` + UFS.map(uf => `<option>${uf}</option>`).join('');
-  fd.innerHTML = `<option value="">Todas</option>` + UFS.map(uf => `<option>${uf}</option>`).join('');
+  const opts = (first) => `<option value="">${first}</option>` + UFS.map(uf => `<option>${uf}</option>`).join('');
+  fo.innerHTML = opts("Todas");
+  fd.innerHTML = opts("Todas");
   document.getElementById('btLimpar').onclick = () => { fo.value = ""; fd.value = ""; paint(); };
-  fo.onchange = paint;
-  fd.onchange = paint;
+  fo.onchange = paint; fd.onchange = paint;
 }
 
-function buildHeader(fD) { // Aceita o filtro de destino como parâmetro
+function buildHeader(fD){
   const thead = document.getElementById('thead');
   thead.innerHTML = '';
   const tr = document.createElement('tr');
+
   const th0 = document.createElement('th');
   th0.className = 'sticky-left';
-  th0.textContent = 'ORIGEM';
+  th0.textContent = 'ORIGEM \\ DESTINO';
   tr.appendChild(th0);
 
   UFS.forEach(uf => {
-    if (fD && uf !== fD) return; // APLICA O FILTRO DE DESTINO NO CABEÇALHO
+    if (fD && uf !== fD) return;
     const th = document.createElement('th');
     th.textContent = uf;
     tr.appendChild(th);
@@ -117,37 +138,44 @@ function buildHeader(fD) { // Aceita o filtro de destino como parâmetro
 }
 
 function aliquotaInter(orig, dest){
-  if(orig === dest) return {valor: ALIQUOTAS[orig]?.icms_interna ?? null, classe:'diag', regra:'Alíquota interna'};
+  if(orig === dest){
+    return {valor: ALIQUOTAS[orig]?.icms_interna ?? null, classe:'diag', regra:'Alíquota interna do estado'};
+  }
   const key = `${orig}>${dest}`;
-  if(key in EXCECOES) return {valor: EXCECOES[key], classe:'cell-custom', regra:'Exceção configurada'};
-  if(isSevenRule(orig, dest)) return {valor: 7, classe:'cell-7', regra:'Regra 7% (S/SE → N/NE/CO)'};
+  if(key in EXCECOES){
+    return {valor: EXCECOES[key], classe:'cell-custom', regra:'Exceção configurada'};
+  }
+  if(isSevenRule(orig, dest)){
+    return {valor: 7, classe:'cell-7', regra:'Regra 7% (S/SE* → N/NE/CO/ES) *exceto ES na origem'};
+  }
   return {valor: TAXA_PADRAO, classe:'cell-12', regra:'Regra padrão 12%'};
 }
 
-function format(v){ return (v==null || isNaN(v)) ? '-' : Number(v).toString().replace('.', ','); }
+function format(v){
+  if(v==null || isNaN(v)) return '–';
+  const s = Number(v).toString().replace('.', ',');
+  return s + '%';
+}
 
-function paint() {
+function paint(){
   const fO = document.getElementById('fOrigem').value;
   const fD = document.getElementById('fDestino').value;
-  
-  // CORREÇÃO PRINCIPAL: O cabeçalho é reconstruído aqui, usando o filtro
+
   buildHeader(fD);
-  
   const tbody = document.getElementById('tbody');
   tbody.innerHTML = '';
 
   UFS.forEach(ufO => {
-    if (fO && ufO !== fO) return; // Filtra as linhas (Origem)
-    
+    if (fO && ufO !== fO) return;
     const tr = document.createElement('tr');
+
     const thUF = document.createElement('th');
     thUF.className = 'sticky-left';
     thUF.textContent = ufO;
     tr.appendChild(thUF);
-    
+
     UFS.forEach(ufD => {
-      if (fD && ufD !== fD) return; // Filtra as colunas (Destino)
-      
+      if (fD && ufD !== fD) return;
       const {valor, classe, regra} = aliquotaInter(ufO, ufD);
       const td = document.createElement('td');
       td.className = classe;
@@ -155,6 +183,7 @@ function paint() {
       td.textContent = format(valor);
       tr.appendChild(td);
     });
+
     tbody.appendChild(tr);
   });
 }
@@ -162,16 +191,14 @@ function paint() {
 (async function(){
   fillSelects();
   const resp = await fetch('icms.json');
-  if(!resp.ok) {
+  if(!resp.ok){
     console.error('Não foi possível carregar icms.json');
     return;
   }
   const arr = await resp.json();
-  arr.forEach(x => { ALIQUOTAS[x.uf] = { icms_interna: Number(x.icms), regiao: x.regiao, estado: x.estado }; });
-  
-  paint(); // Chama a pintura inicial que agora também constrói o cabeçalho
+  arr.forEach(x => { ALIQUOTAS[x.uf] = { icms_interna:Number(x.icms), regiao:x.regiao, estado:x.estado }; });
+  paint();
 })();
 </script>
-
 </body>
 </html>
