@@ -4,32 +4,44 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Tabela ICMS Interestadual 2024</title>
+
 <style>
-  /* ================== ESTILOS GERAIS (MODIFICADOS) ================== */
+  /* ================== VARIÁVEIS E ESTILOS GERAIS ================== */
   :root{
-    --bg: #f0f2f5;             /* Fundo cinza claro, mais suave */
+    --bg: #f0f2f5;
     --panel: #ffffff;
-    --ink: #1a202c;             /* Tinta principal (texto) */
+    --ink: #1a202c;
     --muted: #718096;
     --border: #e2e8f0;
-    --header: #2d3748;         /* Azul escuro/chumbo para cabeçalhos e painel */
-    --header-text: #ffffff;    /* Texto branco para os cabeçalhos */
-    --diag-bg: #1a202c;         /* Fundo preto para a diagonal */
-    --diag-ink: #ffffff;       /* Texto branco para a diagonal */
+    --header: #2d3748;
+    --header-text: #ffffff;
+    --diag-bg: #1a202c;
+    --diag-ink: #ffffff;
+    --hover-bg: #f7fafc; /* NOVA COR: Fundo suave para hover */
+    --scroll-thumb: #cbd5e0; /* NOVA COR: Cor da barra de rolagem */
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);font-family: Inter, system-ui, sans-serif;color:var(--ink)}
+  html { scroll-behavior: smooth; } /* Rolagem suave */
+  body{
+    margin:0;
+    background:var(--bg);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing: antialiased; /* Deixa a fonte mais nítida */
+    -moz-osx-font-smoothing: grayscale;
+  }
   .wrap{max-width:1380px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:320px 1fr;gap:24px}
-  .card{background:var(--panel);border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,.08);overflow:hidden}
+  .card{background:var(--panel);border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,.05);overflow:hidden; border: 1px solid var(--border);}
 
-  /* ================== PAINEL ESQUERDO (NOVO) ================== */
+  /* ================== PAINEL ESQUERDO ================== */
   .cover{
-    background-color: var(--header); /* Cor sólida, sem gradiente */
+    background-color: var(--header);
     color: var(--header-text);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 32px;
+    border: none; /* Painel principal não precisa de borda */
   }
   .cover .header h1 {
     margin: 0;
@@ -47,54 +59,92 @@
     font-weight: 700;
     margin-top: 12px;
   }
-  .cover .graphics {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    opacity: 0.5; /* Deixa as imagens mais sutis */
-  }
-  .cover .graphics img {
-    max-width: 80%;
-    height: auto;
-  }
-  .cover .footer-logo img {
-    max-width: 120px; /* Ajuste o tamanho da sua logo */
-  }
+  .cover .graphics { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px; opacity: 0.5; }
+  .cover .graphics img { max-width: 80%; height: auto; }
+  .cover .footer-logo { font-size: 24px; font-weight: bold; opacity: 0.8; }
 
-  /* ================== TABELA (AJUSTES) ================== */
+  /* ================== TABELA ================== */
   .table-card{padding:24px}
-  .title{font-size:16px; text-transform:uppercase; letter-spacing: 1px; text-align:center;margin:0 0 16px;font-weight:700;color:var(--muted)}
+  .title{font-size:16px; text-transform:uppercase; letter-spacing: 1.5px; text-align:center;margin:0 0 16px;font-weight:700;color:var(--muted)}
   .bar{display:flex;gap:10px;justify-content:flex-end;align-items:center;margin:8px 0 14px;}
-  .filters{display:none} /* Escondendo filtros por enquanto, pois não estão na imagem */
+  .filters{display:none}
   .note{font-size:12px;color:var(--muted)}
   .scroll{overflow:auto;border-radius:12px;border:1px solid var(--border)}
   table{border-collapse:separate;border-spacing:0;width:100%}
-  th,td{font-size:14px;padding:12px 10px;border-bottom:1px solid var(--border);border-right:1px solid var(--border); text-align:center; font-weight: 500;}
+  
+  th,td{
+    font-size:14px;
+    padding:12px 10px;
+    border-bottom:1px solid var(--border);
+    border-right:1px solid var(--border);
+    text-align:center;
+    font-weight: 500;
+    transition: background-color 0.2s ease-out; /* NOVA TRANSIÇÃO: Efeito suave */
+  }
   th:last-child, td:last-child { border-right: none; }
-  tr:last-child td { border-bottom: none; }
+  tbody tr:last-child td { border-bottom: none; } /* Ajuste na última linha */
 
   thead th{
-    position:sticky;top:0;background:var(--header);color:var(--header-text);font-weight:700;z-index:2;
+    position:sticky;
+    top:0;
+    background:var(--header);
+    color:var(--header-text);
+    font-weight:600; /* Aumentando o peso da fonte do cabeçalho */
+    z-index:2;
     border-color: #4A5568;
   }
+  
+  /* NOVO: Efeito de hover nas linhas da tabela */
+  tbody tr:hover td {
+    background-color: var(--hover-bg);
+  }
+
   .sticky-left{
     position:sticky;left:0;z-index:1;background:var(--panel);font-weight:700; border-right: 1px solid var(--border);
   }
-  th.sticky-left { /* Canto superior esquerdo */
+  
+  /* NOVO: Mantém o fundo branco na célula de cabeçalho da linha durante o hover */
+  tbody tr:hover th.sticky-left {
+    background-color: var(--panel);
+  }
+
+  th.sticky-left {
     z-index: 3;
     background-color: var(--header);
     border-color: #4A5568;
   }
 
   /* Estilos das Células */
-  .diag{background:var(--diag-bg)!important;color:var(--diag-ink);font-weight:800}
-  .cell-7, .cell-12, .cell-custom { font-weight: 500; } /* Removemos cores de fundo para ficar igual a imagem */
+  .diag{background:var(--diag-bg)!important;color:var(--diag-ink);font-weight:700}
+  
+  /* NOVO: Estiliza a diagonal durante o hover para manter seu estilo */
+  tbody tr:hover .diag {
+    background-color: var(--diag-bg) !important;
+  }
 
-  @media (max-width:1060px){.wrap{grid-template-columns:1fr}}
+  /* ================== NOVA SEÇÃO: ESTILIZAÇÃO DA BARRA DE ROLAGEM ================== */
+  .scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  .scroll::-webkit-scrollbar-thumb {
+    background: var(--scroll-thumb);
+    border-radius: 10px;
+  }
+  .scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--muted);
+  }
+
+  /* ================== RESPONSIVIDADE ================== */
+  @media (max-width:1060px){
+    .wrap{grid-template-columns:1fr}
+  }
 </style>
+
 </head>
 <body>
 <div class="wrap">
@@ -108,8 +158,7 @@
         </div>
 
     <div class="footer-logo">
-        <div style="font-size: 24px; font-weight: bold; opacity: 0.8;">plugdFe</div>
-    </div>
+        </div>
   </aside>
 
   <main class="card table-card">
@@ -130,16 +179,12 @@
         <tbody id="tbody"></tbody>
       </table>
     </div>
-    </main>
+  </main>
 </div>
 
 <script>
 /* ====================== CONFIG ====================== */
-
-// ordem e lista de UFs
 const UFS = ["AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
-
-// regiões (para regra de 7%)
 const REGIOES = {
   N: ["AC","AM","AP","PA","RO","RR","TO"],
   NE:["AL","BA","CE","MA","PB","PE","PI","RN","SE"],
@@ -147,29 +192,17 @@ const REGIOES = {
   SE:["ES","MG","RJ","SP"],
   S: ["PR","RS","SC"]
 };
-
-// regra padrão fora da diagonal
 const TAXA_PADRAO = 12;
 
-// quando origem ∈ (S ∪ SE) e destino ∈ (N ∪ NE ∪ CO) => 7%
 function isSevenRule(orig, dest){
   const sulSudeste = new Set([...REGIOES.S, ...REGIOES.SE]);
   const norteNeCo  = new Set([...REGIOES.N, ...REGIOES.NE, ...REGIOES.CO]);
   return sulSudeste.has(orig) && norteNeCo.has(dest);
 }
 
-// exceções específicas (ex.: estados com política distinta)
-// Formato: "ORIGEM>DESTINO": aliquota
-const EXCECOES = {
-  "BA>SP": 20.5, // Exemplo de exceção da imagem
-  "PE>RS": 20.5,
-  "PR>PE": 19.5,
-  "RN>RJ": 19.5,
-  "SE>AL": 19.0
-};
+const EXCECOES = {};
 
 /* ====================== UI BASICS ====================== */
-
 function fillSelects(){
   const fo = document.getElementById('fOrigem');
   const fd = document.getElementById('fDestino');
@@ -185,12 +218,10 @@ function buildHeader(){
   const thead = document.getElementById('thead');
   thead.innerHTML = '';
   const tr = document.createElement('tr');
-
   const th0 = document.createElement('th');
   th0.className = 'sticky-left';
   th0.textContent = 'ORIGEM';
   tr.appendChild(th0);
-
   UFS.forEach(uf=>{
     const th = document.createElement('th');
     th.textContent = uf;
@@ -200,8 +231,7 @@ function buildHeader(){
 }
 
 /* ====================== CORE ====================== */
-
-let ALIQUOTAS = {}; // { UF: {icms_interna, regiao, estado} }
+let ALIQUOTAS = {};
 
 async function loadJSON(){
   const resp = await fetch('icms.json');
@@ -221,24 +251,20 @@ function aliquotaInter(orig, dest){
   return {valor: TAXA_PADRAO, classe:'cell-12', regra:'Regra padrão 12%'};
 }
 
-// Função de formatação ajustada para remover o "%" e usar ponto
 function format(v){ return (v==null || isNaN(v)) ? '-' : Number(v).toString().replace('.', ','); }
 
 function paint(){
   const tbody = document.getElementById('tbody');
   const fO = document.getElementById('fOrigem').value;
   const fD = document.getElementById('fDestino').value;
-
   tbody.innerHTML = '';
   UFS.forEach(ufO=>{
     if(fO && ufO!==fO) return;
     const tr = document.createElement('tr');
-
-    const tdUF = document.createElement('th'); // Mudei para TH para poder estilizar diferente
+    const tdUF = document.createElement('th');
     tdUF.className = 'sticky-left';
     tdUF.textContent = ufO;
     tr.appendChild(tdUF);
-
     UFS.forEach(ufD=>{
       if(fD && ufD!==fD) return;
       const {valor, classe, regra} = aliquotaInter(ufO, ufD);
@@ -248,13 +274,11 @@ function paint(){
       td.textContent = format(valor);
       tr.appendChild(td);
     });
-
     tbody.appendChild(tr);
   });
 }
 
 /* ====================== BOOT ====================== */
-
 (async function(){
   fillSelects();
   buildHeader();
@@ -262,5 +286,6 @@ function paint(){
   paint();
 })();
 </script>
+
 </body>
 </html>
