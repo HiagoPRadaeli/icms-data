@@ -7,47 +7,97 @@
 
 <style>
   :root{
-    --bg:#f4f6f9; --panel:#fff; --ink:#111827; --muted:#6b7280; --border:#e5e7eb;
-    --header:#0f172a; --header-text:#fff; --diag-bg:#111827; --diag-ink:#fff;
-    --hover:#f9fafb; --scroll:#cbd5e1;
-    --c7:#ecfdf5;   /* 7% */
-    --c12:#eef2ff;  /* 12% */
-    --cX:#fff7ed;   /* exceções manuais, se usar */
+    /* nova paleta: clara, viva e sem “cinzão” */
+    --bg:#f0fbff;           /* azul céu clarinho */
+    --panel:#ffffff;
+    --ink:#0b1220;          /* grafite bem escuro */
+    --muted:#4b5563;
+    --border:#e6f3ff;
+
+    --header-grad-from:#0ea5e9; /* azul */
+    --header-grad-to:#22c55e;   /* verde */
+    --header-text:#ffffff;
+
+    --diag-bg:#0b1220; --diag-ink:#ffffff;
+
+    --hover:#f5fbff;
+    --scroll:#bfe7ff;
+
+    --c7:#dcfce7;   /* 7% (verde clarinho) */
+    --c12:#e0f2fe;  /* 12% (azul clarinho) */
+    --cX:#fff0da;   /* exceção manual */
   }
+
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
-  .wrap{max-width:1380px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:320px 1fr;gap:24px}
-  @media (max-width:1060px){.wrap{grid-template-columns:1fr}}
+  body{
+    margin:0; background:var(--bg);
+    font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;
+    color:var(--ink); -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:1380px; margin:24px auto; padding:0 16px;
+    display:grid; grid-template-columns:320px 1fr; gap:24px;
+  }
+  @media (max-width:1060px){ .wrap{grid-template-columns:1fr} }
 
-  .card{background:var(--panel);border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.06);overflow:hidden;border:1px solid var(--border)}
-  .cover{background:var(--header);color:var(--header-text);padding:28px}
-  .cover h1{margin:0 0 10px;font-size:34px;line-height:1.15;font-weight:800}
-  .badge{display:inline-block;padding:8px 12px;border:1px solid rgba(255,255,255,.25);border-radius:10px;font-weight:700}
-  .legend{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
-  .chip{display:flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 10px;font-size:12px}
-  .dot{width:14px;height:14px;border-radius:4px;border:1px solid rgba(255,255,255,.25);display:inline-block}
+  .card{background:var(--panel); border-radius:14px; overflow:hidden;
+        border:1px solid var(--border); box-shadow:0 10px 24px rgba(14,165,233,.08)}
+  .cover{
+    color:var(--header-text); padding:28px;
+    background-image:linear-gradient(135deg,var(--header-grad-from),var(--header-grad-to));
+  }
+  .cover h1{ margin:0 0 10px; font-size:34px; line-height:1.15; font-weight:900; letter-spacing:.2px }
+  .badge{
+    display:inline-block; padding:8px 12px;
+    border:1px solid rgba(255,255,255,.35); border-radius:10px; font-weight:800;
+    background:rgba(255,255,255,.12); backdrop-filter: blur(2px);
+  }
+  .legend{ margin-top:16px; display:flex; gap:10px; flex-wrap:wrap }
+  .chip{ display:flex; align-items:center; gap:8px;
+         border:1px solid rgba(255,255,255,.35); border-radius:999px;
+         padding:6px 10px; font-size:12px; background:rgba(255,255,255,.12) }
+  .dot{ width:14px; height:14px; border-radius:4px; border:1px solid rgba(255,255,255,.35); display:inline-block }
 
-  .table-card{padding:20px}
-  .bar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin:6px 0 12px}
-  .filters{display:flex;gap:8px;align-items:center}
-  .filters label{font-size:14px;color:var(--muted);font-weight:600}
-  .filters select, .filters button{padding:8px 10px;border-radius:10px;border:1px solid var(--border);background:#fff;cursor:pointer}
-  .note{font-size:12px;color:var(--muted)}
-  .scroll{overflow:auto;border-radius:12px;border:1px solid var(--border)}
-  .scroll::-webkit-scrollbar{width:8px;height:8px}
-  .scroll::-webkit-scrollbar-thumb{background:var(--scroll);border-radius:10px}
+  .table-card{ padding:20px }
+  .bar{ display:flex; gap:10px; justify-content:space-between; align-items:center; margin:6px 0 12px }
+  .filters{ display:flex; gap:8px; align-items:center }
+  .filters label{ font-size:14px; color:var(--muted); font-weight:700 }
+  .filters select,.filters button{
+    padding:10px 12px; border-radius:10px; border:1px solid var(--border);
+    background:#fff; cursor:pointer; box-shadow:0 4px 10px rgba(34,197,94,.07);
+  }
+  .filters button{ transition:transform .06s ease; }
+  .filters button:active{ transform:scale(.98) }
+  .note{ font-size:12px; color:var(--muted) }
 
-  table{border-collapse:separate;border-spacing:0;width:100%}
-  th,td{font-size:14px;padding:10px 10px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);text-align:center;transition:background-color .15s}
-  th:last-child,td:last-child{border-right:none}
-  tbody tr:last-child td{border-bottom:none}
-  thead th{position:sticky;top:0;background:var(--header);color:var(--header-text);font-weight:700;z-index:2;border-color:#1f2937}
-  .sticky-left{position:sticky;left:0;z-index:3;background:var(--header);color:var(--header-text);font-weight:800;border-color:#1f2937;text-align:left}
-  tbody tr:hover td{background:var(--hover)}
-  .diag{background:var(--diag-bg)!important;color:var(--diag-ink);font-weight:800}
-  .cell-7{background:var(--c7);font-weight:700}
-  .cell-12{background:var(--c12)}
-  .cell-custom{background:var(--cX);font-weight:700}
+  .scroll{ overflow:auto; border-radius:12px; border:1px solid var(--border) }
+  .scroll::-webkit-scrollbar{ width:8px; height:8px }
+  .scroll::-webkit-scrollbar-thumb{ background:var(--scroll); border-radius:10px }
+
+  table{ border-collapse:separate; border-spacing:0; width:100% }
+  th,td{
+    font-size:14px; padding:10px 10px; text-align:center;
+    border-bottom:1px solid var(--border); border-right:1px solid var(--border);
+    transition:background-color .12s;
+  }
+  th:last-child,td:last-child{ border-right:none }
+  tbody tr:last-child td{ border-bottom:none }
+
+  thead th{
+    position:sticky; top:0; z-index:2; color:var(--header-text); font-weight:800;
+    background-image:linear-gradient(135deg,var(--header-grad-from),var(--header-grad-to));
+    border-color:rgba(255,255,255,.25);
+  }
+  .sticky-left{
+    position:sticky; left:0; z-index:3; text-align:left; color:var(--header-text);
+    background-image:linear-gradient(135deg,var(--header-grad-from),var(--header-grad-to));
+    font-weight:900; border-color:rgba(255,255,255,.25)
+  }
+  tbody tr:hover td{ background:var(--hover) }
+  .diag{ background:var(--diag-bg)!important; color:var(--diag-ink); font-weight:900 }
+  .cell-7{ background:var(--c7); font-weight:800 }
+  .cell-12{ background:var(--c12) }
+  .cell-custom{ background:var(--cX); font-weight:800 }
 </style>
 </head>
 
@@ -60,7 +110,7 @@
     <div class="legend">
       <span class="chip"><i class="dot" style="background:var(--c7)"></i>7% &nbsp; S/SE (exceto ES) → N/NE/CO/ES</span>
       <span class="chip"><i class="dot" style="background:var(--c12)"></i>12% &nbsp; Demais casos</span>
-      <span class="chip"><i class="dot" style="background:var(--diag-bg)"></i>Interna &nbsp; (diagonal)</span>
+      <span class="chip"><i class="dot" style="background:var(--diag-bg)"></i>Interna &nbsp;(diagonal)</span>
     </div>
   </aside>
 
@@ -88,21 +138,21 @@
 <script>
 const UFS = ["AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
 const REGIOES = {
-  N:  ["AC","AM","AP","PA","RO","RR","TO"],
-  NE: ["AL","BA","CE","MA","PB","PE","PI","RN","SE"],
-  CO: ["DF","GO","MT","MS"],
-  SE: ["ES","MG","RJ","SP"],
-  S:  ["PR","RS","SC"]
+  N:["AC","AM","AP","PA","RO","RR","TO"],
+  NE:["AL","BA","CE","MA","PB","PE","PI","RN","SE"],
+  CO:["DF","GO","MT","MS"],
+  SE:["ES","MG","RJ","SP"],
+  S:["PR","RS","SC"]
 };
 
 // regra 2025: 7% quando ORIGEM ∈ (S + SE sem ES) e DESTINO ∈ (N + NE + CO + ES)
 const TAXA_PADRAO = 12;
-const EXCECOES = {}; // se quiser forçar alguma célula: {"SP>BA": 10}
+const EXCECOES = {}; // ex.: {"SP>BA": 10}
 let ALIQUOTAS = {};
 
 const SE_SEM_ES = REGIOES.SE.filter(uf => uf !== 'ES');
-const GRUPO_ORIGEM_7 = new Set([...REGIOES.S, ...SE_SEM_ES]); // S/SE exceto ES
-const GRUPO_DEST_7 = new Set([...REGIOES.N, ...REGIOES.NE, ...REGIOES.CO, "ES"]); // inclui ES no destino
+const GRUPO_ORIGEM_7 = new Set([...REGIOES.S, ...SE_SEM_ES]);               // S/SE exceto ES
+const GRUPO_DEST_7  = new Set([...REGIOES.N, ...REGIOES.NE, ...REGIOES.CO, "ES"]); // inclui ES no destino
 
 function isSevenRule(orig, dest){
   return GRUPO_ORIGEM_7.has(orig) && GRUPO_DEST_7.has(dest);
@@ -153,8 +203,7 @@ function aliquotaInter(orig, dest){
 
 function format(v){
   if(v==null || isNaN(v)) return '–';
-  const s = Number(v).toString().replace('.', ',');
-  return s + '%';
+  return Number(v).toString().replace('.', ',') + '%'; // força o símbolo %
 }
 
 function paint(){
@@ -180,7 +229,7 @@ function paint(){
       const td = document.createElement('td');
       td.className = classe;
       td.title = `${ufO} → ${ufD}: ${regra}`;
-      td.textContent = format(valor);
+      td.textContent = format(valor); // com %
       tr.appendChild(td);
     });
 
@@ -190,11 +239,8 @@ function paint(){
 
 (async function(){
   fillSelects();
-  const resp = await fetch('icms.json');
-  if(!resp.ok){
-    console.error('Não foi possível carregar icms.json');
-    return;
-  }
+  const resp = await fetch('icms.json'); // mantém seu arquivo atual
+  if(!resp.ok){ console.error('Não foi possível carregar icms.json'); return; }
   const arr = await resp.json();
   arr.forEach(x => { ALIQUOTAS[x.uf] = { icms_interna:Number(x.icms), regiao:x.regiao, estado:x.estado }; });
   paint();
