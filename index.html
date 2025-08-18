@@ -17,17 +17,17 @@
     --header-text: #ffffff;
     --diag-bg: #1a202c;
     --diag-ink: #ffffff;
-    --hover-bg: #f7fafc; /* NOVA COR: Fundo suave para hover */
-    --scroll-thumb: #cbd5e0; /* NOVA COR: Cor da barra de rolagem */
+    --hover-bg: #f7fafc; 
+    --scroll-thumb: #cbd5e0;
   }
   *{box-sizing:border-box}
-  html { scroll-behavior: smooth; } /* Rolagem suave */
+  html { scroll-behavior: smooth; }
   body{
     margin:0;
     background:var(--bg);
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color:var(--ink);
-    -webkit-font-smoothing: antialiased; /* Deixa a fonte mais nítida */
+    -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   .wrap{max-width:1380px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:320px 1fr;gap:24px}
@@ -41,24 +41,10 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 32px;
-    border: none; /* Painel principal não precisa de borda */
+    border: none;
   }
-  .cover .header h1 {
-    margin: 0;
-    font-size: 36px;
-    font-weight: 800;
-    line-height: 1.2;
-    color: #fff;
-  }
-  .cover .header .year-badge {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 20px;
-    font-weight: 700;
-    margin-top: 12px;
-  }
+  .cover .header h1 { margin: 0; font-size: 36px; font-weight: 800; line-height: 1.2; color: #fff; }
+  .cover .header .year-badge { display: inline-block; background: rgba(255, 255, 255, 0.1); padding: 8px 16px; border-radius: 8px; font-size: 20px; font-weight: 700; margin-top: 12px; }
   .cover .graphics { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px; opacity: 0.5; }
   .cover .graphics img { max-width: 80%; height: auto; }
   .cover .footer-logo { font-size: 24px; font-weight: bold; opacity: 0.8; }
@@ -79,65 +65,30 @@
     border-right:1px solid var(--border);
     text-align:center;
     font-weight: 500;
-    transition: background-color 0.2s ease-out; /* NOVA TRANSIÇÃO: Efeito suave */
+    transition: background-color 0.2s ease-out;
   }
   th:last-child, td:last-child { border-right: none; }
-  tbody tr:last-child td { border-bottom: none; } /* Ajuste na última linha */
+  tbody tr:last-child td { border-bottom: none; }
 
-  thead th{
-    position:sticky;
-    top:0;
-    background:var(--header);
-    color:var(--header-text);
-    font-weight:600; /* Aumentando o peso da fonte do cabeçalho */
-    z-index:2;
-    border-color: #4A5568;
-  }
+  thead th{ position:sticky; top:0; background:var(--header); color:var(--header-text); font-weight:600; z-index:2; border-color: #4A5568; }
   
-  /* NOVO: Efeito de hover nas linhas da tabela */
-  tbody tr:hover td {
-    background-color: var(--hover-bg);
-  }
+  tbody tr:hover td { background-color: var(--hover-bg); }
 
-  .sticky-left{
-    position:sticky;left:0;z-index:1;background:var(--panel);font-weight:700; border-right: 1px solid var(--border);
-  }
+  .sticky-left{ position:sticky; left:0; z-index:1; background:var(--panel); font-weight:700; border-right: 1px solid var(--border); }
   
-  /* NOVO: Mantém o fundo branco na célula de cabeçalho da linha durante o hover */
-  tbody tr:hover th.sticky-left {
-    background-color: var(--panel);
-  }
+  tbody tr:hover th.sticky-left { background-color: var(--panel); }
 
-  th.sticky-left {
-    z-index: 3;
-    background-color: var(--header);
-    border-color: #4A5568;
-  }
+  th.sticky-left { z-index: 3; background-color: var(--header); border-color: #4A5568; }
 
-  /* Estilos das Células */
   .diag{background:var(--diag-bg)!important;color:var(--diag-ink);font-weight:700}
   
-  /* NOVO: Estiliza a diagonal durante o hover para manter seu estilo */
-  tbody tr:hover .diag {
-    background-color: var(--diag-bg) !important;
-  }
+  tbody tr:hover .diag { background-color: var(--diag-bg) !important; }
 
-  /* ================== NOVA SEÇÃO: ESTILIZAÇÃO DA BARRA DE ROLAGEM ================== */
-  .scroll::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  .scroll::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-  }
-  .scroll::-webkit-scrollbar-thumb {
-    background: var(--scroll-thumb);
-    border-radius: 10px;
-  }
-  .scroll::-webkit-scrollbar-thumb:hover {
-    background: var(--muted);
-  }
+  /* ================== BARRA DE ROLAGEM ================== */
+  .scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+  .scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+  .scroll::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 10px; }
+  .scroll::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
   /* ================== RESPONSIVIDADE ================== */
   @media (max-width:1060px){
@@ -153,12 +104,8 @@
         <h1>Tabela ICMS<br>Interestadual</h1>
         <div class="year-badge">2024</div>
     </div>
-
-    <div class="graphics">
-        </div>
-
-    <div class="footer-logo">
-        </div>
+    <div class="graphics"></div>
+    <div class="footer-logo"></div>
   </aside>
 
   <main class="card table-card">
